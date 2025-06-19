@@ -16,10 +16,10 @@ def build_working_paper(
     col_konto: str,
     col_saldo: str,
     col_datum: str,
-    template_path: Union[str, Path],
     mapping_path: Union[str, Path],
-    df3: pd.DataFrame = None,
     output_path: Union[str, Path] = "arbeitspapier.xlsx",
+    template_path: Union[str, Path] = "revenue_worksheet\template_umsatzanalyse_mit_sparten.xlsx",
+    df3: pd.DataFrame = None,
     mus_sample_size: int = 10,
     cut_off_sample_size: int = 10,
     materiality: int = 0,
@@ -61,7 +61,7 @@ def build_working_paper(
         saldo_col=col_saldo,
         materiality=materiality,
     )
-    df2_mapped_only_ue_only_dec.to_excel("df2_mapped_only_ue_only_dec.xlsx")
+
     cut_off_sample_df2 = mus_sampling_with_given_sample_size(
         data=df2_mapped_only_ue_only_dec,
         amount_col=col_saldo,
@@ -104,7 +104,15 @@ def _get_mapping(path) -> pd.DataFrame:
 
 
 def _get_list_of_sections(mapping: pd.DataFrame) -> list:
-    return mapping.iloc[:, 3].unique().tolist()
+    list_clean = (
+        mapping.iloc[:, 3]
+        .dropna()
+        .loc[lambda x: x.str.strip() != ""]
+        .unique()
+        .tolist()
+    )
+    print(list_clean)
+    return list_clean
 
 
 def _initially_map_and_filter_df(
@@ -322,5 +330,7 @@ def _calculate_one_df(
 
     result = pd.DataFrame({"Umsatz": series_u, "Materialaufwand": series_m})
     result.index.name = None
+
+    result = result.round(0).astype(int)
 
     return result

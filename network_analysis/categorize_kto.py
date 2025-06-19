@@ -117,6 +117,7 @@ Kontobezeichnung: {kontobezeichnung}
 
 Hinweis: 
 - VAK steht für Aufwand
+- Nachlässe sind grundsätzlich eher den Umsatzerlösen zuzuordnen.
 
 Du musst und darfst ausschließlich mit einer Kategorie der Liste antworten.
 """,

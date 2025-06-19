@@ -34,6 +34,6 @@ def prepare_journal(
 
     test_saldo_je_journalnummer(df_prep, saldo=saldo, journal_nr=journal_nr)
     test_ob_jede_buchung_umgedreht_doppelt(df_prep, kto_nr, gkto_nr, saldo, journal_nr)
-    df_prep.to_excel("ertweitertes_journal.xlsx")
+    #df_prep.to_excel("ertweitertes_journal.xlsx")
     
     return df_prep

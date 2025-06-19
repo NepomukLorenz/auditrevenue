@@ -18,7 +18,7 @@ def _get_journal_grouped_by_kto_and_gkto(df, kto_nr, kto_name, gkto_nr, gkto_nam
     df[haben] = df[haben].round(2)
     df[saldo] = df[saldo].round(2)
 
-    df.to_excel("gegenkonten_aggregiert.xlsx", index=False, engine="openpyxl")
+    #df.to_excel("gegenkonten_aggregiert.xlsx", index=False, engine="openpyxl")
     return df
 
 def get_nodes_and_edges_by_aggregating_journal(

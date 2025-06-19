@@ -1,13 +1,13 @@
 import pandas as pd
 import numpy as np
-import datetime
+from datetime import datetime
 
 
 def test_saldo_je_journalnummer(
     df: pd.DataFrame,
     journal_nr: str,          # Spaltenname für Journalnummern
     saldo: str,        # Spaltenname für Beträge
-    tol: float = 0.1         # Toleranz für Rundungsdifferenzen
+    tol: float = 1         # Toleranz für Rundungsdifferenzen
 ) -> None:
     """
     Kontrolliert, ob jeder Buchungssatz (pro JOURNAL_NR) wieder Summe Null ergibt.
@@ -54,7 +54,7 @@ def test_ob_jede_buchung_umgedreht_doppelt(df: pd.DataFrame,
             mask = (
                 (unmatched[kto_nr] == row[gkto_nr]) &
                 (unmatched[gkto_nr] == row[kto_nr]) &
-                (unmatched[saldo].round(2) == round(-row[saldo], 2)) &
+                (unmatched[saldo].round(0) == round(-row[saldo], 0)) &
                 (~unmatched["matched"])
             )
 

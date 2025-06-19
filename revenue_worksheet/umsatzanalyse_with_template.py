@@ -51,7 +51,24 @@ def _clear_worksheet_below(ws, start_row: int):
         rng for rng in ws.merged_cells.ranges if rng.min_row < start_row
     ]
     cf = ws.conditional_formatting
+    to_keep = []
+
+    for entry in list(cf._cf_rules.values()):
+        for rule in entry:
+            try:
+                min_col, min_row, max_col, max_row = range_boundaries(str(rule.sqref))
+                if max_row < start_row:
+                    to_keep.append((rule.sqref, rule))
+            except Exception:
+                continue
+
     cf._cf_rules.clear()
+
+    for sqref, rule in to_keep:
+        if isinstance(rule, Rule):
+            cf.add(sqref, rule)
+
+
 
 def create_arbeitspapier_from_template_with_sections(
         df_list: list[tuple[pd.DataFrame, pd.DataFrame]],
@@ -70,7 +87,7 @@ def create_arbeitspapier_from_template_with_sections(
     copyfile(template_path, output_path)
 
     wb = load_workbook(output_path)
-    ws = wb.active
+    ws = wb.worksheets[1]
 
     start_row = 20
     for i, (df_current, df_prior) in enumerate(df_list):
@@ -82,17 +99,17 @@ def create_arbeitspapier_from_template_with_sections(
         _write_block(ws, start_row, df_prior)
         start_row = start_row + 24
 
-    for ws in wb.worksheets:
-        for ch in ws._charts:
+    for ws_iter in wb.worksheets:
+        for ch in ws_iter._charts:
             ch.style = 1
             ch.roundedCorners = False
-  
+            
     last_row = start_row -5
     _clear_worksheet_below(ws, last_row)
 
-    _add_sample_on_new_sheet(ws=wb.worksheets[1], sample=mus_sample)
+    _add_sample_on_new_sheet(ws=wb.worksheets[2], sample=mus_sample)
 
-    _add_sample_on_new_sheet(ws=wb.worksheets[2], sample=cut_off_sample)
+    _add_sample_on_new_sheet(ws=wb.worksheets[3], sample=cut_off_sample)
 
     wb.save(output_path)
 

@@ -69,10 +69,12 @@ def _get_edge_style(src_kat: str, dst_kat: str, summe_soll: float, summe_haben: 
     plausible_combinations += [(b, a) for (a, b) in plausible_combinations]  # bidirektional
 
     critic_combinations = [
-        ("Debitoren", "Verrechnungskonto"),
+        ("Aufwand", "Zahlungsmittel"),
+        ("Aufwand", "Verrechnungskonten"),
+        ("Debitoren", "Verrechnungskonten"),
         ("Debitoren", "Sonstige Passiva"),
         ("Debitoren", "Sonstige Aktiva"),
-        ("Kreditoren", "Verrechnungskonto"),
+        ("Kreditoren", "Verrechnungskonten"),
         ("Kreditoren", "Sonstige Aktiva"),
         ("Kreditoren", "Sonstige Passiva"),
     ]
