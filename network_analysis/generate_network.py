@@ -48,7 +48,7 @@ def _get_node_color(kategorie: str) -> str:
         "Sonstige Passiva": "#B7B7B7",
         "Eröffnungskonten": "#ffffff",
     }
-    return farben.get(kategorie, "#cccccc")  # Fallback: hellgrau
+    return farben.get(kategorie, "#cccccc")
 
 
 def _get_edge_style(src_kat: str, dst_kat: str, summe_soll: float, summe_haben: float, schwelle: float, max_betrag: float) -> dict:
@@ -133,16 +133,15 @@ def _get_edge_style(src_kat: str, dst_kat: str, summe_soll: float, summe_haben: 
 
 
 def generate_network_graph(
-        df,
-        # Spaltennamen als Strings
-        kto_nr,          # z. B. "src"
-        kto_name,        # z. B. "src_name"
-        gkto_nr,         # z. B. "dst"
-        gkto_name,       # z. B. "dst_name"
-        soll,            # z. B. "summe_soll"
-        haben,           # z. B. "summe_haben"
-        saldo,           # z. B. "summe_saldo"
-        kto_kategorie,   # z. B. "src_kategorie"
+        df:pd.DataFrame,
+        kto_nr:str,
+        kto_name:str,
+        gkto_nr:str,
+        gkto_name:str,
+        soll:str,
+        haben:str,
+        saldo:str,
+        kto_kategorie:str,
         schwelle: float = 0,
     ):
     """
